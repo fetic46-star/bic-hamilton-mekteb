@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BIC Hamilton Mekteb – Learn Salah</title><style>
+:root{--g:#176b5b;--ink:#17342f;--bg:#f5f8f7;--soft:#e8f3ef;--muted:#687b77}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+main{max-width:800px;margin:auto;padding:16px}.hero,.card{background:#fff;border-radius:22px;padding:20px;margin-bottom:13px;box-shadow:0 5px 20px #17342f10}.hero{text-align:center;background:linear-gradient(135deg,#e7f4ef,#fff4dd)}
+h1{margin:0}.muted{color:var(--muted);line-height:1.5}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn,button{border:0;border-radius:13px;padding:13px;font:inherit;font-weight:750;background:var(--soft);color:var(--ink)}
+.primary{background:var(--g);color:white}.hidden{display:none}.step{border-top:1px solid #edf0ef;padding:14px 0}.arabic{direction:rtl;text-align:center;font-family:"Geeza Pro",serif;font-size:28px;line-height:1.8}
+.trans{text-align:center;font-weight:700}.meaning{text-align:center;color:var(--muted);margin-top:5px}.footer{text-align:center;color:var(--muted);font-size:13px;margin:22px}
+</style></head><body><main>
+<section class="hero"><h1>🕌 Learn Salah</h1><p><b>BIC Hamilton Mekteb</b></p><p class="muted">Learn the prayer step by step</p></section>
+<section id="menu" class="card"><div class="grid">
+<button onclick="openLesson('wudu')">💧 Wudu</button><button onclick="openLesson('before')">🧭 Before Salah</button>
+<button onclick="openLesson('fajr')">🌅 Fajr</button><button onclick="openLesson('dhuhr')">☀️ Dhuhr</button>
+<button onclick="openLesson('asr')">🌤️ Asr</button><button onclick="openLesson('maghrib')">🌇 Maghrib</button>
+<button onclick="openLesson('isha')">🌙 Isha</button><button onclick="openLesson('witr')">✨ Witr</button>
+</div></section>
+<section id="lesson" class="card hidden"><button onclick="back()">← Salah Menu</button><div id="content"></div></section>
+<audio id="audio" preload="metadata"></audio><div class="footer">BIC Hamilton Mekteb • Learn • Practice • Grow</div>
+<script>
+const lessons={
+wudu:{t:"Wudu – Preparing for Salah",intro:"Make wudu carefully and without wasting water.",steps:[
+["1. Intention","Have the intention in your heart to make wudu for worship."],["2. Bismillah","Begin by saying Bismillah."],["3. Hands","Wash both hands up to the wrists three times."],["4. Mouth","Rinse the mouth three times."],["5. Nose","Clean the nose three times."],["6. Face","Wash the entire face three times."],["7. Arms","Wash the right arm, then the left, including the elbows, three times."],["8. Masah","Wipe the head with wet hands."],["9. Ears","Wipe the ears."],["10. Feet","Wash the right foot, then the left, including the ankles, three times."]]},
+before:{t:"Before Salah",intro:"Before beginning Salah, make sure you are ready.",steps:[["Wudu","Be in a state of purification."],["Cleanliness","Body, clothes and place of prayer should be clean."],["Awrah","Cover what must be covered for Salah."],["Qiblah","Face the Qiblah."],["Prayer Time","Make sure the time for the prayer has begun."],["Intention","Know in your heart which Salah you are praying."]]},
+fajr:{t:"Fajr Salah",intro:"Fajr consists of 2 Sunnah rak'ahs followed by 2 Fard rak'ahs.",steps:[]},
+dhuhr:{t:"Dhuhr Salah",intro:"Dhuhr: 4 Sunnah, 4 Fard, then 2 Sunnah.",steps:[]},
+asr:{t:"Asr Salah",intro:"Asr: 4 Sunnah ghayr mu'akkadah, then 4 Fard.",steps:[]},
+maghrib:{t:"Maghrib Salah",intro:"Maghrib: 3 Fard, then 2 Sunnah.",steps:[]},
+isha:{t:"Isha Salah",intro:"Learn the Isha prayer according to the Hanafi curriculum taught in Mekteb.",steps:[]},
+witr:{t:"Witr Salah",intro:"Witr is 3 rak'ahs. In the third rak'ah, after recitation, raise the hands for an extra takbir and then recite Qunut before going to ruku'.",steps:[]}
+};
+const rakaat=[
+["Takbir","Raise your hands and say:","اللّٰهُ أَكْبَرُ","Allahu Akbar","Allah is the Greatest."],
+["Qiyam","Stand and recite Subhanaka, then seek Allah's protection, say Bismillah, recite Al-Fatiha and a surah where required.","سُبْحَانَكَ اللّٰهُمَّ وَبِحَمْدِكَ...","Subhanakallahumma wa bihamdika...","Glory and praise belong to You, O Allah."],
+["Ruku'","Bow and say at least three times:","سُبْحَانَ رَبِّيَ الْعَظِيمِ","Subhana Rabbiyal-'Azim","Glory be to my Lord, the Magnificent."],
+["Standing after Ruku'","Rise from ruku'.","سَمِعَ اللّٰهُ لِمَنْ حَمِدَهُ • رَبَّنَا لَكَ الْحَمْدُ","Sami'Allahu liman hamidah • Rabbana lakal-hamd","Allah hears the one who praises Him. Our Lord, all praise is Yours."],
+["Sujud","Prostrate and say at least three times:","سُبْحَانَ رَبِّيَ الْأَعْلَى","Subhana Rabbiyal-A'la","Glory be to my Lord, the Most High."],
+["Sitting","Sit briefly between the two prostrations, then make the second sujud.","","", ""],
+["Final Sitting","In the final sitting recite At-Tahiyyat, Allahumma Salli, Allahumma Barik and du'a.","التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ...","At-tahiyyatu lillahi was-salawatu wat-tayyibat...","All greetings, prayers and good things belong to Allah."],
+["Salam","Finish the prayer by turning to the right and then the left.","السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ","As-salamu 'alaykum wa rahmatullah","Peace and Allah's mercy be upon you."]
+];
+function openLesson(k){document.getElementById("menu").classList.add("hidden");document.getElementById("lesson").classList.remove("hidden");let l=lessons[k],h=`<h2>${l.t}</h2><p class="muted">${l.intro}</p>`;
+if(l.steps.length){h+=l.steps.map(x=>`<div class="step"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")}
+else{h+=`<p><b>Learn the movement and recitation sequence:</b></p>`+rakaat.map((x,i)=>`<div class="step"><h3>${i+1}. ${x[0]}</h3><p>${x[1]}</p>${x[2]?`<div class="arabic">${x[2]}</div><div class="trans">${x[3]}</div><div class="meaning">${x[4]}</div>`:""}${x[0]=="Final Sitting"?`<p style="text-align:center"><button class="primary" onclick="playPrayer()">▶ Listen to At-Tahiyyat, Salawat & Du'as</button></p>`:""}</div>`).join("")}
+document.getElementById("content").innerHTML=h;scrollTo(0,0)}
+function back(){stopAudio();document.getElementById("lesson").classList.add("hidden");document.getElementById("menu").classList.remove("hidden")}
+function playPrayer(){let a=document.getElementById("audio");a.src=encodeURI("New Recording 12.m4a");a.currentTime=0;a.play()}
+function stopAudio(){let a=document.getElementById("audio");a.pause();a.currentTime=0}
+</script></body></html>
