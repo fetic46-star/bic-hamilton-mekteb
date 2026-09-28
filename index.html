@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BIC Hamilton Mekteb – Learn • Practice • Grow</title>
+<style>
+:root{--green:#176b5b;--ink:#17342f;--bg:#f5f8f7;--soft:#e8f3ef;--gold:#b58a3a;--muted:#687b77}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+main{max-width:820px;margin:auto;padding:16px 14px 50px}.hero{background:linear-gradient(135deg,#e7f4ef,#fff4dd);padding:25px 18px;border-radius:24px;text-align:center}
+h1{margin:0;font-size:30px}.hero p{margin:7px}.muted{color:var(--muted);line-height:1.5}.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:14px 0}
+.tile,.card{background:#fff;border-radius:19px;box-shadow:0 5px 20px #17342f10}.tile{border:0;padding:18px 10px;text-align:center;font-size:16px;font-weight:800;color:var(--ink)}
+.tile span{display:block;font-size:31px;margin-bottom:8px}.card{padding:18px;margin:12px 0}.hidden{display:none}
+button,select{font:inherit;border:0;border-radius:12px;padding:12px}button{background:var(--soft);color:var(--ink);font-weight:750}.primary{background:var(--green);color:#fff}
+select{width:100%;background:#fff;border:1px solid #cfdad7;margin:8px 0 12px}.weekrow{padding:12px 0;border-top:1px solid #edf0ef}
+.choices{display:grid;gap:9px;margin:15px 0}.choice{text-align:left}.good{background:#dcf2e5!important}.bad{background:#f7dddd!important}
+.pill{display:inline-block;background:var(--soft);padding:6px 10px;border-radius:999px;font-size:13px}.score{text-align:center;font-size:30px;font-weight:850}
+.progressbar{height:10px;background:#edf0ef;border-radius:10px;overflow:hidden}.progressfill{height:100%;background:var(--gold)}
+a{text-decoration:none}.footer{text-align:center;color:var(--muted);font-size:13px;margin-top:24px}
+@media(min-width:680px){.grid{grid-template-columns:repeat(3,1fr)}}
+</style></head>
+<body><main>
+<section class="hero"><h1>BIC Hamilton Mekteb</h1><p><b>Learn • Practice • Grow</b></p><p class="muted">Your Mekteb learning center</p></section>
+
+<section id="home">
+<div class="grid">
+<button class="tile" onclick="show('quran')"><span>📖</span>Qur'an & Surahs</button>
+<button class="tile" onclick="show('week')"><span>📚</span>This Week at Mekteb</button>
+<button class="tile" onclick="show('quiz')"><span>🎯</span>Quiz & Games</button>
+<button class="tile" onclick="coming('Learn Salah')"><span>🕌</span>Learn Salah</button>
+<button class="tile" onclick="coming('Arabic & Tajweed')"><span>🔤</span>Arabic & Tajweed</button>
+<button class="tile" onclick="show('progress')"><span>⭐</span>My Progress</button>
+</div>
+</section>
+
+<section id="quran" class="card hidden"><button onclick="home()">← Home</button><h2>📖 Qur'an & Surahs</h2>
+<p class="muted">Listen to complete surahs and repeat them as many times as you need until you can recite them without looking.</p>
+<a href="learn.html"><button class="primary">Open Learn by Heart</button></a>
+<p class="muted"><small>Your existing Qur'an memorization program will remain available here.</small></p></section>
+
+<section id="week" class="card hidden"><button onclick="home()">← Home</button><h2>📚 This Week at Mekteb</h2>
+<label><b>Choose your group</b></label>
+<select id="weekGroup" onchange="renderWeek()"><option value="g1">Group I • Ages 6–10</option><option value="g2">Group II • Ages 11–16</option></select>
+<div id="weekContent"></div></section>
+
+<section id="quiz" class="card hidden"><button onclick="home()">← Home</button><h2>🎯 Quiz & Games</h2>
+<p class="muted">Practice what you learned at Mekteb. Read carefully and choose the best answer.</p>
+<select id="quizGroup"><option value="g1">Group I • Ages 6–10</option><option value="g2">Group II • Ages 11–16</option></select>
+<button class="primary" onclick="startQuiz()">Start 10-Question Quiz</button><div id="quizBox"></div></section>
+
+<section id="progress" class="card hidden"><button onclick="home()">← Home</button><h2>⭐ My Progress</h2><div id="progressBox"></div></section>
+<div class="footer">BIC Hamilton Mekteb • 2026–2027</div>
+</main>
+<script>
+const ids=["quran","week","quiz","progress"];
+function home(){ids.forEach(x=>document.getElementById(x).classList.add("hidden"));document.getElementById("home").classList.remove("hidden")}
+function show(id){document.getElementById("home").classList.add("hidden");ids.forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));if(id==="week")renderWeek();if(id==="progress")renderProgress()}
+function coming(name){alert(name+" is coming next, insha'Allah!");}
+
+const weeks={
+g1:{title:"Week 3 • I Am a Muslim – The Shahadah",focus:"Islam & Kalimah ash-Shahadah",items:["Qur'an: Continue practicing Al-Fatiha","Memorization: Continue practicing Subhanaka","Review: The Five Pillars of Islam","Learn: The Shahadah and its simple meaning","Character of the Week: Truthfulness"],home:"Practice Al-Fatiha and Subhanaka. Recite the Shahadah and explain its simple meaning to a parent. Give one example of how you can be truthful this week."},
+g2:{title:"Week 3 • Allah's Revelations and the Holy Books",focus:"Revelation • The Four Great Books • Jibril (a.s.)",items:["Learn the four great revealed Books: Tawrat, Zabur, Injil and Qur'an","Know which Prophets received these revealed Books","Understand the role of Jibril (a.s.) in bringing revelation by Allah's command","Learn why Muslims respect Allah's revelation","Continue your assigned Qur'an / Sufara reading practice"],home:"Explain one key lesson about Allah's revelation to a parent. Review the four revealed Books and the Prophets who received them. Practice your assigned Qur'an/Sufara portion."}
+};
+function renderWeek(){const w=weeks[document.getElementById("weekGroup").value];document.getElementById("weekContent").innerHTML=`<h3>${w.title}</h3><p class="pill">${w.focus}</p>${w.items.map(x=>`<div class="weekrow">✓ ${x}</div>`).join("")}<h3>🏠 Home Practice</h3><p class="muted">${w.home}</p>`}
+
+const questions={
+g1:[
+["How many Pillars of Islam are there?",["Three","Five","Seven","Ten"],1,"There are five Pillars of Islam."],
+["What is the first Pillar of Islam?",["Sawm","Hajj","Shahadah","Zakah"],2,"The Shahadah is the first Pillar of Islam."],
+["Who is the One God we worship?",["Allah","An angel","A prophet","The sun"],0,"Muslims worship Allah alone."],
+["Who is Allah's final Messenger?",["Musa (a.s.)","Muhammad ﷺ","Nuh (a.s.)","Ibrahim (a.s.)"],1,"Muhammad ﷺ is Allah's final Messenger."],
+["What does the Shahadah teach us?",["There are many gods","Allah alone is worthy of worship and Muhammad ﷺ is His Messenger","Only adults worship Allah","We only pray on Friday"],1,"The Shahadah is our testimony of faith."],
+["Which surah are we continuing to practice?",["Al-Fatiha","Al-Fil","Quraysh","Al-Masad"],0,"We are continuing to practice Al-Fatiha."],
+["What are we continuing to memorize and review?",["Talbiyah","Subhanaka","Adhan","Qunut"],1,"We are continuing to practice Subhanaka."],
+["Which of these is a Pillar of Islam?",["Salah","Sleeping","Playing","Shopping"],0,"Salah is one of the Five Pillars of Islam."],
+["What should a Muslim try to do when speaking?",["Tell the truth","Blame others","Hide every mistake","Make fun of people"],0,"Truthfulness is an important Muslim character."],
+["If you make a mistake, what is the truthful thing to do?",["Lie about it","Blame someone else","Tell the truth","Laugh at someone"],2,"A Muslim should practice honesty and truthfulness."]
+],
+g2:[
+["What is revelation?",["Guidance sent by Allah to His Prophets","A school subject only","A story people invented","A type of prayer"],0,"Revelation is guidance from Allah given to His Prophets."],
+["Which angel brought revelation by Allah's command?",["Mikail","Jibril","Israfil","Malik"],1,"Jibril (a.s.) brought revelation by Allah's command."],
+["Which Book was revealed to Musa (a.s.)?",["Zabur","Injil","Tawrat","Qur'an"],2,"The Tawrat was revealed to Musa (a.s.)."],
+["Which Book was revealed to Dawud (a.s.)?",["Zabur","Tawrat","Injil","Qur'an"],0,"The Zabur was revealed to Dawud (a.s.)."],
+["Which Book was revealed to Isa (a.s.)?",["Qur'an","Injil","Zabur","Tawrat"],1,"The Injil was revealed to Isa (a.s.)."],
+["Which Book was revealed to Muhammad ﷺ?",["Tawrat","Zabur","Qur'an","Injil"],2,"The Qur'an was revealed to Muhammad ﷺ."],
+["How should Muslims treat Allah's revelation?",["With respect","As a joke","Ignore it","Only as history"],0,"Muslims respect Allah's revelation and seek guidance from it."],
+["Why do we learn Islamic knowledge?",["Only to pass a test","So it can guide how we live","Only to win a game","Only for Sundays"],1,"We learn Islam so that our knowledge guides our worship, choices and character."],
+["What should you do if a classmate makes a Qur'an reading mistake?",["Mock them","Help respectfully","Laugh","Tell everyone"],1,"Mekteb should be a respectful place where students help one another learn."],
+["Which of these is one of the four great revealed Books studied this week?",["Qur'an","Dictionary","History book","Atlas"],0,"The Qur'an is one of the revealed Books studied in this lesson."]
+]};
+let quiz=[],qi=0,score=0,answered=false;
+function startQuiz(){quiz=[...questions[document.getElementById("quizGroup").value]].sort(()=>Math.random()-.5);qi=0;score=0;showQuestion()}
+function showQuestion(){answered=false;if(qi>=quiz.length){finishQuiz();return}const q=quiz[qi];document.getElementById("quizBox").innerHTML=`<p class="pill">Question ${qi+1} of ${quiz.length}</p><h3>${q[0]}</h3><div class="choices">${q[1].map((x,i)=>`<button class="choice" onclick="answer(${i},this)">${x}</button>`).join("")}</div><div id="feedback"></div>`}
+function answer(i,btn){if(answered)return;answered=true;const q=quiz[qi],bs=[...document.querySelectorAll(".choice")];bs[q[2]].classList.add("good");if(i===q[2]){score++;btn.classList.add("good");document.getElementById("feedback").innerHTML=`<p><b>✓ Correct! Masha'Allah!</b></p><p class="muted">${q[3]}</p>`}else{btn.classList.add("bad");document.getElementById("feedback").innerHTML=`<p><b>Keep learning!</b></p><p class="muted">${q[3]}</p>`}document.getElementById("feedback").innerHTML+=`<button class="primary" onclick="qi++;showQuestion()">Next →</button>`}
+function finishQuiz(){const key=document.getElementById("quizGroup").value;localStorage.setItem(key+"Last",score);let best=Math.max(score,Number(localStorage.getItem(key+"Best")||0));localStorage.setItem(key+"Best",best);document.getElementById("quizBox").innerHTML=`<div class="score">🌟 ${score}/10</div><p style="text-align:center"><b>Great job!</b><br>Review anything you missed and try again.</p><button class="primary" onclick="startQuiz()">Try Again</button>`}
+function renderProgress(){let g1=Number(localStorage.getItem("g1Best")||0),g2=Number(localStorage.getItem("g2Best")||0);document.getElementById("progressBox").innerHTML=`<h3>Group I Quiz</h3><p>Best score: <b>${g1}/10</b></p><div class="progressbar"><div class="progressfill" style="width:${g1*10}%"></div></div><h3>Group II Quiz</h3><p>Best score: <b>${g2}/10</b></p><div class="progressbar"><div class="progressfill" style="width:${g2*10}%"></div></div><p class="muted">More progress tracking will appear here as Learn Salah, Arabic & Tajweed and Final Exam Practice are added.</p>`}
+</script></body></html>
