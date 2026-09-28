@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BIC Hamilton Mekteb – Sufara</title>
+<style>body{font-family:-apple-system,Arial;background:#f5f8f7;color:#17342f;margin:0}main{max-width:800px;margin:auto;padding:16px}.hero,.card{background:white;padding:20px;border-radius:20px;margin-bottom:12px}.hero{text-align:center;background:linear-gradient(135deg,#e7f4ef,#fff4dd)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}button{border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;background:#e8f3ef;color:#17342f}.primary{background:#176b5b;color:white}.arabic{direction:rtl;text-align:center;font-family:"Geeza Pro",serif;font-size:38px;line-height:2}.muted{color:#687b77;line-height:1.5}.hidden{display:none}.done{background:#dff2e9}.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.progress{height:10px;background:#edf0ef;border-radius:10px;overflow:hidden}.bar{height:100%;background:#b58a3a}.footer{text-align:center;color:#687b77;font-size:13px;margin:20px}</style></head>
+<body><main><section class="hero"><h1>📖 Sufara</h1><p><b>Learn to Read the Qur'an</b></p><p class="muted">BIC Hamilton Mekteb</p></section>
+<section id="menu" class="card"><h2>Lessons</h2><div class="progress"><div id="bar" class="bar"></div></div><p id="pt" class="muted"></p><div id="grid" class="grid"></div></section>
+<section id="lesson" class="card hidden"><button onclick="menu()">← Lessons</button><p id="count"></p><h2 id="title"></h2><p id="explain" class="muted"></p><div id="arabic" class="arabic"></div><h3>Practice</h3><div id="practice" class="arabic"></div><div class="nav"><button id="prev">← Previous</button><button id="learned" class="primary">✓ Mark Lesson as Learned</button><button id="next">Next →</button></div></section>
+<div class="footer">BIC Hamilton Mekteb • Learn • Practice • Grow</div></main>
+<script>
+const L=[
+["Arabic Letters 1","Learn the first group of Arabic letters.","ا ب ت ث","ا  ب  ت  ث"],
+["Arabic Letters 2","Learn the next group.","ج ح خ د ذ","ج  ح  خ  د  ذ"],
+["Arabic Letters 3","Learn the next group.","ر ز س ش","ر  ز  س  ش"],
+["Arabic Letters 4","Learn the next group.","ص ض ط ظ","ص  ض  ط  ظ"],
+["Arabic Letters 5","Learn the next group.","ع غ ف ق","ع  غ  ف  ق"],
+["Arabic Letters 6","Learn the final group.","ك ل م ن ه و ي","ك  ل  م  ن  ه  و  ي"],
+["Letter Review","Recognize all Arabic letters before moving on.","ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي","ب م س ق ن ع ت ر ي"],
+["Fathah َ","Fathah gives a short 'a' sound.","بَ تَ ثَ جَ","بَ تَ دَ رَ سَ مَ"],
+["Kasrah ِ","Kasrah gives a short 'i' sound.","بِ تِ ثِ جِ","بِ تِ دِ رِ سِ مِ"],
+["Dammah ُ","Dammah gives a short 'u' sound.","بُ تُ ثُ جُ","بُ تُ دُ رُ سُ مُ"],
+["Mixed Short Vowels","Practice fathah, kasrah and dammah.","بَ بِ بُ تَ تِ تُ","مَ سِ رُ كَ لِ نُ"],
+["Two-Letter Reading","Join two sounds smoothly.","بَتَ كَتَ لِمَ","بَتَ كَتَ سَمِ رُسُ"],
+["Three-Letter Reading","Read three short-vowel sounds together.","كَتَبَ ذَهَبَ خَلَقَ","كَتَبَ جَلَسَ دَخَلَ"],
+["Tanween","Learn the three tanween endings.","بٌ بٍ بًا","عِلْمٌ عِلْمٍ عِلْمًا"],
+["Sukun ْ","A letter with sukun has no vowel.","أَبْ مِنْ قُلْ","مِنْ هَلْ قُلْ لَمْ"],
+["Shaddah ّ","Shaddah doubles the consonant.","رَبِّ إِنَّ ثُمَّ","رَبَّ إِنَّ ثُمَّ أَمَّا"],
+["Madd with Alif","Alif after fathah makes a long 'aa' sound.","قَالَ كَانَ","قَالَ كَانَ مَالَ"],
+["Madd with Waw","Waw after dammah makes a long 'oo' sound.","يَقُولُ نُورٌ","نُورٌ يَقُولُ رَسُولٌ"],
+["Madd with Ya","Ya after kasrah makes a long 'ee' sound.","فِي دِينِ","فِي دِينِ رَحِيمٌ"],
+["Mixed Madd","Practice all three long vowels.","قَالَ يَقُولُ فِي","كِتَابٌ رَسُولٌ رَحِيمٌ"],
+["Alif Lam","Practice words beginning with ال.","الْحَمْدُ الْكِتَابُ الْفَلَقِ","الْحَمْدُ الْعَالَمِينَ"],
+["Connected Letters","Notice how letters change shape when connected.","بـ ـبـ ـب  تـ ـتـ ـت","كتب بيت مسلم"],
+["Qur'anic Words 1","Read familiar Qur'anic words.","اللَّهُ رَبِّ دِينِ","اللَّهُ رَبِّ دِينِ"],
+["Qur'anic Words 2","Continue reading familiar words.","الرَّحْمَٰنِ الرَّحِيمِ الْعَالَمِينَ","الرَّحْمَٰنِ الرَّحِيمِ"],
+["Short Phrase 1","Read a short Qur'anic phrase.","قُلْ هُوَ اللَّهُ أَحَدٌ","قُلْ هُوَ اللَّهُ أَحَدٌ"],
+["Short Phrase 2","Practice another Qur'anic phrase.","مِنْ شَرِّ مَا خَلَقَ","مِنْ شَرِّ مَا خَلَقَ"],
+["Reading Practice 1","Read carefully without rushing.","بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ","بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"],
+["Reading Practice 2","Continue reading directly from Qur'anic text.","الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ","الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ"],
+["Reading Practice 3","Join words correctly and observe every sign.","إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ","فَصَلِّ لِرَبِّكَ وَانْحَرْ"],
+["Ready for Qur'an Reading","Review your skills and begin reading directly from the Qur'an with your teacher.","اقْرَأْ بِاسْمِ رَبِّكَ","مَا شَاءَ اللَّهُ"]
+];
+let i=0;const done=n=>localStorage.getItem("sufara-"+n)==="yes";
+function renderMenu(){let d=L.filter((_,n)=>done(n)).length;pt.textContent=d+" of "+L.length+" lessons completed";bar.style.width=(d/L.length*100)+"%";grid.innerHTML=L.map((x,n)=>`<button class="${done(n)?"done":""}" onclick="openLesson(${n})">${done(n)?"✓ ":""}${n+1}. ${x[0]}</button>`).join("")}
+function openLesson(n){i=n;document.getElementById("menu").classList.add("hidden");lesson.classList.remove("hidden");render();scrollTo(0,0)}
+function render(){let x=L[i];count.textContent="Lesson "+(i+1)+" of "+L.length;title.textContent=x[0];explain.textContent=x[1];arabic.textContent=x[2];practice.textContent=x[3];learned.textContent=done(i)?"✓ Learned":"✓ Mark Lesson as Learned";prev.disabled=i===0;next.disabled=i===L.length-1}
+function menu(){lesson.classList.add("hidden");document.getElementById("menu").classList.remove("hidden");renderMenu()}
+prev.onclick=()=>{if(i){i--;render()}};next.onclick=()=>{if(i<L.length-1){i++;render()}};learned.onclick=()=>{localStorage.setItem("sufara-"+i,"yes");render()};renderMenu();
+</script></body></html>
